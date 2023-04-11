@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Masa.Contrib.Caching.Distributed.StackExchangeRedis" Version="$(MasaFrameworkPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Caching.MultilevelCache" Version="$(MasaFrameworkPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Exceptions" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Masa.Contrib.Data.Contracts" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Data.EFCore.Sqlite" Version="$(MasaFrameworkPackageVersion)" />
@@ -17,7 +21,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <!--  省略其它nuget包 -->
   </ItemGroup>
 
   <ItemGroup>

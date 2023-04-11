@@ -8,7 +8,7 @@ public record CreateProductCommand : Command
 
     public int CatalogBrandId { get; set; }
 
-    public int CatalogTypeId { get; set; }
+    public int CatalogTypeId { get; set; } 
 
     public decimal Price { get; set; }
 

@@ -1,3 +1,6 @@
+using System.Reflection;
+using FluentValidation;
+using Masa.BuildingBlocks.Caching;
 using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.EShop.Service.Catalog.Infrastructure;
 using Masa.EShop.Service.Catalog.Infrastructure.Extensions;
@@ -5,14 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region 注册Swagger
+#region Register Swagger
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #endregion
 
-builder.Services.AddEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>)));
+builder.Services
+    .AddMultilevelCache(cacheBuilder => cacheBuilder.UseStackExchangeRedisCache())
+    .AddEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>)))
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services.AddMasaDbContext<CatalogDbContext>(contextBuilder =>
 {
@@ -21,9 +27,26 @@ builder.Services.AddMasaDbContext<CatalogDbContext>(contextBuilder =>
         .UseFilter();
 });
 
+//Use the same database as the write library (pseudo read-write separation)
+builder.Services.AddMasaDbContext<CatalogQueryDbContext>(contextBuilder =>
+{
+    contextBuilder
+        .UseSqlite()
+        .UseFilter();
+});
+
 var app = builder.AddServices();
 
-#region 使用Swaager
+app.UseMasaExceptionHandler(options =>
+{
+    options.ExceptionHandler = exceptionContext =>
+    {
+        if (exceptionContext.Exception is ArgumentNullException ex)
+            exceptionContext.ToResult(ex.Message, 298);
+    };
+});
+
+#region Use Swaager
 
 if (app.Environment.IsDevelopment())
 {
