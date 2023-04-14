@@ -1,15 +1,12 @@
-﻿namespace Masa.EShop.Service.Catalog.Domain.Entities;
+﻿using Masa.BuildingBlocks.Ddd.Domain.SeedWork;
 
-public class CatalogType
+namespace Masa.EShop.Service.Catalog.Domain.Entities;
+
+public class CatalogType: Enumeration
 {
-    public int Id { get; set; }
-
-    public string Type { get; set; } = null!;
-
-    public CatalogType() { }
-
-    public CatalogType(string type)
+    public static CatalogType WaterDispenser = new(1, "Water Dispenser");
+    
+    public CatalogType(int id, string name) : base(id, name)
     {
-        Type = type;
     }
 }

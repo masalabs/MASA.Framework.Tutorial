@@ -4,5 +4,5 @@ namespace Masa.EShop.Service.Catalog.Application.Catalogs.Commands;
 
 public record DeleteProductCommand : Command
 {
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
 }

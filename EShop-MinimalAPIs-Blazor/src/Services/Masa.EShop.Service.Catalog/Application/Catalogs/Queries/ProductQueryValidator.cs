@@ -6,6 +6,6 @@ public class ProductQueryValidator : AbstractValidator<ProductQuery>
 {
     public ProductQueryValidator()
     {
-        RuleFor(item => item.ProductId).GreaterThan(0).WithMessage("Please enter the ProductId");
+        RuleFor(item => item.ProductId).NotEqual(Guid.Empty).WithMessage("Please enter the ProductId");
     }
 }

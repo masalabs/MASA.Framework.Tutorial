@@ -6,6 +6,6 @@ public class DeleteProductCommandValidator : AbstractValidator<DeleteProductComm
 {
     public DeleteProductCommandValidator()
     {
-        RuleFor(cmd => cmd.ProductId).GreaterThan(0).WithMessage("Please enter the ProductId");
+        RuleFor(cmd => cmd.ProductId).NotEqual(Guid.Empty).WithMessage("Please enter the ProductId");
     }
 }

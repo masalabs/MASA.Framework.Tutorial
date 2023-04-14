@@ -1,49 +1,38 @@
 ﻿using Masa.BuildingBlocks.Caching;
-using Masa.EShop.Service.Catalog.Infrastructure;
+using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Masa.Contrib.Dispatcher.Events;
 using Masa.EShop.Service.Catalog.Application.Catalogs.Commands;
 using Masa.EShop.Service.Catalog.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Masa.EShop.Service.Catalog.Application.Catalogs;
 
 public class ProductCommandHandler
 {
-    private readonly CatalogDbContext _dbContext;
+    private readonly IRepository<CatalogItem, Guid> _repository;
     private readonly IMultilevelCacheClient _multilevelCacheClient;
 
-    public ProductCommandHandler(CatalogDbContext dbContext, IMultilevelCacheClient multilevelCacheClient)
+    public ProductCommandHandler(
+        IRepository<CatalogItem, Guid> repository,
+        IMultilevelCacheClient multilevelCacheClient)
     {
-        _dbContext = dbContext;
+        _repository = repository;
         _multilevelCacheClient = multilevelCacheClient;
     }
 
     [EventHandler]
     public async Task CreateHandleAsync(CreateProductCommand command)
     {
-        var catalogItem = new CatalogItem()
-        {
-            CatalogBrandId = command.CatalogBrandId,
-            CatalogTypeId = command.CatalogTypeId,
-            Name = command.Name,
-            PictureFileName = command.PictureFileName ?? "default.png",
-            Price = command.Price
-        };
-
-        await _dbContext.CatalogItems.AddAsync(catalogItem);
-        await _dbContext.SaveChangesAsync();
-        
+        var catalogItem = new CatalogItem(command.Name, command.Price, command.PictureFileName ?? "default.png");
+        catalogItem.SetCatalogType(command.CatalogTypeId);
+        catalogItem.SetCatalogBrand(command.CatalogBrandId);
+        await _repository.AddAsync(catalogItem);
         await _multilevelCacheClient.SetAsync(catalogItem.Id.ToString(), catalogItem);
     }
 
     [EventHandler]
     public async Task DeleteHandlerAsync(DeleteProductCommand command)
     {
-        var catalogItem = await _dbContext.CatalogItems.FirstOrDefaultAsync(item => item.Id == command.ProductId) ??
-                          throw new UserFriendlyException("Product doesn't exist");
-        _dbContext.CatalogItems.Remove(catalogItem);
-        await _dbContext.SaveChangesAsync();
-        
-        await _multilevelCacheClient.RemoveAsync<CatalogItem>(catalogItem.Id.ToString());
+        await _repository.RemoveAsync(command.ProductId);
+        await _multilevelCacheClient.RemoveAsync<CatalogItem>(command.ProductId.ToString());
     }
 }

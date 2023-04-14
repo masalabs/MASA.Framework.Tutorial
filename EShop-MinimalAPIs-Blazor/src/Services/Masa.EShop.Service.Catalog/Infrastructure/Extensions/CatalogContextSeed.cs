@@ -1,4 +1,5 @@
-﻿using Masa.EShop.Service.Catalog.Domain.Entities;
+﻿using Masa.BuildingBlocks.Ddd.Domain.SeedWork;
+using Masa.EShop.Service.Catalog.Domain.Entities;
 
 namespace Masa.EShop.Service.Catalog.Infrastructure.Extensions;
 
@@ -10,16 +11,13 @@ public class CatalogContextSeed
     {
         if (!env.IsDevelopment())
             return;
-        
+
+        await context.Database.EnsureCreatedAsync();
         if (!context.CatalogBrands.Any())
         {
             var catalogBrands = new List<CatalogBrand>()
             {
-                new()
-                {
-                    Id = 1,
-                    Brand = "LONSID"
-                }
+                new("LONSID")
             };
             await context.CatalogBrands.AddRangeAsync(catalogBrands);
 
@@ -28,16 +26,14 @@ public class CatalogContextSeed
 
         if (!context.CatalogTypes.Any())
         {
-            var catalogTypes = new List<CatalogType>()
-            {
-                new()
-                {
-                    Id = 1,
-                    Type = "Water Dispenser"
-                }
-            };
+            var catalogTypes = GetCatalogTypes();
             await context.CatalogTypes.AddRangeAsync(catalogTypes);
             await context.SaveChangesAsync();
         }
+    }
+
+    private static IEnumerable<CatalogType> GetCatalogTypes()
+    {
+        return Enumeration.GetAll<CatalogType>();
     }
 }

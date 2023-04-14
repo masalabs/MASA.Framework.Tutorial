@@ -16,7 +16,7 @@ class CatalogTypeEntityTypeConfiguration
         builder.Property(ct => ct.Id)
            .IsRequired();
 
-        builder.Property(ct => ct.Type)
+        builder.Property(ct => ct.Name)
             .IsRequired()
             .HasMaxLength(100);
     }

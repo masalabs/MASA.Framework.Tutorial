@@ -9,7 +9,7 @@ public class CatalogItemService : ServiceBase
 {
     private IEventBus EventBus => GetRequiredService<IEventBus>();
 
-    public async Task<IResult> GetAsync(int id)
+    public async Task<IResult> GetAsync(Guid id)
     {
         var query = new ProductQuery() { ProductId = id };
         await EventBus.PublishAsync(query);
@@ -60,7 +60,7 @@ public class CatalogItemService : ServiceBase
         return Results.Accepted();
     }
 
-    public async Task<IResult> DeleteProductAsync(int id)
+    public async Task<IResult> DeleteProductAsync(Guid id)
     {
         await EventBus.PublishAsync(new DeleteProductCommand() { ProductId = id });
 

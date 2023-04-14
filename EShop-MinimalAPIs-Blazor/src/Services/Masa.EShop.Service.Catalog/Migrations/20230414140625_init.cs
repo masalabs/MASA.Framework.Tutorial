@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Masa.EShop.Service.Catalog.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +13,12 @@ namespace Masa.EShop.Service.Catalog.Migrations
                 name: "CatalogBrand",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Brand = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modifier = table.Column<int>(type: "INTEGER", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -28,7 +32,7 @@ namespace Masa.EShop.Service.Catalog.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Type = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,17 +40,40 @@ namespace Masa.EShop.Service.Catalog.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IntegrationEventLog",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    EventId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    EventTypeName = table.Column<string>(type: "TEXT", nullable: false),
+                    State = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimesSent = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    TransactionId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<string>(type: "TEXT", maxLength: 36, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IntegrationEventLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Catalog",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     PictureFileName = table.Column<string>(type: "TEXT", nullable: true),
                     CatalogTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CatalogBrandId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CatalogBrandId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Stock = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Modifier = table.Column<int>(type: "INTEGER", nullable: false),
+                    ModificationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -75,12 +102,30 @@ namespace Masa.EShop.Service.Catalog.Migrations
                 name: "IX_Catalog_CatalogTypeId",
                 table: "Catalog",
                 column: "CatalogTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventId_Version",
+                table: "IntegrationEventLog",
+                columns: new[] { "EventId", "RowVersion" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_State_MTime",
+                table: "IntegrationEventLog",
+                columns: new[] { "State", "ModificationTime" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_State_TimesSent_MTime",
+                table: "IntegrationEventLog",
+                columns: new[] { "State", "TimesSent", "ModificationTime" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Catalog");
+
+            migrationBuilder.DropTable(
+                name: "IntegrationEventLog");
 
             migrationBuilder.DropTable(
                 name: "CatalogBrand");

@@ -6,7 +6,7 @@ public record CreateProductCommand : Command
 {
     public string Name { get; set; } = default!;
 
-    public int CatalogBrandId { get; set; }
+    public Guid CatalogBrandId { get; set; }
 
     public int CatalogTypeId { get; set; } 
 

@@ -1,7 +1,11 @@
 using System.Reflection;
 using FluentValidation;
 using Masa.BuildingBlocks.Caching;
+using Masa.BuildingBlocks.Data.UoW;
+using Masa.BuildingBlocks.Ddd.Domain;
+using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Masa.BuildingBlocks.Dispatcher.Events;
+using Masa.BuildingBlocks.Dispatcher.IntegrationEvents;
 using Masa.EShop.Service.Catalog.Infrastructure;
 using Masa.EShop.Service.Catalog.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -18,22 +22,30 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddMultilevelCache(cacheBuilder => cacheBuilder.UseStackExchangeRedisCache())
     .AddEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>)))
-    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-builder.Services.AddMasaDbContext<CatalogDbContext>(contextBuilder =>
-{
-    contextBuilder
-        .UseSqlite()
-        .UseFilter();
-});
-
-//Use the same database as the write library (pseudo read-write separation)
-builder.Services.AddMasaDbContext<CatalogQueryDbContext>(contextBuilder =>
-{
-    contextBuilder
-        .UseSqlite()
-        .UseFilter();
-});
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+    .AddMasaDbContext<CatalogDbContext>(contextBuilder =>
+    {
+        contextBuilder
+            .UseSqlite()
+            .UseFilter();
+    })
+    //Use the same database as the write library (pseudo read-write separation)
+    .AddMasaDbContext<CatalogQueryDbContext>(contextBuilder =>
+    {
+        contextBuilder
+            .UseSqlite()
+            .UseFilter();
+    })
+    .Configure<AuditEntityOptions>(options => options.UserIdType = typeof(int))
+    .AddDomainEventBus(options =>
+    {
+        options
+            .UseIntegrationEventBus(eventOptions=>eventOptions.UseDapr().UseEventLog<CatalogDbContext>())
+            .UseEventBus()
+            .UseUoW<CatalogDbContext>()
+            .UseRepository<CatalogDbContext>();
+    })
+    .AddSequentialGuidGenerator();
 
 var app = builder.AddServices();
 
