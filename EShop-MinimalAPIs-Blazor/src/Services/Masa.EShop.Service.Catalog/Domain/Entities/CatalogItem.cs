@@ -1,5 +1,6 @@
 ﻿using Masa.BuildingBlocks.Data;
 using Masa.BuildingBlocks.Ddd.Domain.Entities.Full;
+using Masa.EShop.Service.Catalog.Domain.Events;
 
 namespace Masa.EShop.Service.Catalog.Domain.Entities;
 
@@ -27,6 +28,13 @@ public class CatalogItem : FullAggregateRoot<Guid, int>
         Name = name;
         Price = price;
         PictureFileName = pictureFileName;
+        AddCatalogDomainIntegrationEvent();
+    }
+
+    private void AddCatalogDomainIntegrationEvent()
+    {
+        var catalogCreatedIntegrationDomainEvent = new CatalogCreatedIntegrationDomainEvent(this);
+        this.AddDomainEvent(catalogCreatedIntegrationDomainEvent);
     }
 
     public void SetCatalogType(int catalogTypeId)

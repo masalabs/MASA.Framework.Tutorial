@@ -17,7 +17,7 @@ public class CatalogContextSeed
         {
             var catalogBrands = new List<CatalogBrand>()
             {
-                new("LONSID")
+                new(Guid.Parse("31b1c60b-e9c3-4646-ac70-09354bdb1522"), "LONSID")
             };
             await context.CatalogBrands.AddRangeAsync(catalogBrands);
 

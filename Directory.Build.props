@@ -1,5 +1,13 @@
 <Project>
+
   <PropertyGroup>
-    <MasaFrameworkPackageVersion>1.0.0-preview.28</MasaFrameworkPackageVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <MasaFrameworkPackageVersion>1.0.0-preview.29</MasaFrameworkPackageVersion>
+  </PropertyGroup>
+  
 </Project>
