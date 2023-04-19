@@ -9,6 +9,11 @@ public static class HostExtensions
     {
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;
+        
+        var env = services.GetRequiredService<IWebHostEnvironment>();
+        if (!env.IsDevelopment())
+            return Task.CompletedTask;
+        
         var context = services.GetRequiredService<TContext>();
         return seeder(context, services);
     }

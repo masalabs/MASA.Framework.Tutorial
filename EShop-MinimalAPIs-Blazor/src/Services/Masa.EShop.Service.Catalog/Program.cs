@@ -70,9 +70,7 @@ if (app.Environment.IsDevelopment())
 
 await app.MigrateDbContextAsync<CatalogDbContext>(async (context, services) =>
 {
-    var env = services.GetRequiredService<IWebHostEnvironment>();
-
-    await CatalogContextSeed.SeedAsync(context, env);
+    await CatalogContextSeed.SeedAsync(context);
 });
 
 app.MapGet("/", () => "Hello World!");

@@ -5,13 +5,8 @@ namespace Masa.EShop.Service.Catalog.Infrastructure.Extensions;
 
 public class CatalogContextSeed
 {
-    public static async Task SeedAsync(
-        CatalogDbContext context,
-        IWebHostEnvironment env)
+    public static async Task SeedAsync(CatalogDbContext context)
     {
-        if (!env.IsDevelopment())
-            return;
-
         await context.Database.EnsureCreatedAsync();
         if (!context.CatalogBrands.Any())
         {
