@@ -25,7 +25,7 @@ public class CatalogItem : FullAggregateRoot<Guid, int>
 
     public int Stock { get; private set; }
 
-    public CatalogItem()
+    private CatalogItem()
     {
     }
 

@@ -7,7 +7,7 @@ public class CatalogBrand : FullAggregateRoot<Guid, int>
 {
     public string Brand { get; set; }
 
-    public CatalogBrand()
+    private CatalogBrand()
     {
     }
 

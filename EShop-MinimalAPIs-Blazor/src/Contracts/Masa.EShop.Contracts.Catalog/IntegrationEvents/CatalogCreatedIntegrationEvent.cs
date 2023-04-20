@@ -14,4 +14,3 @@ public record CatalogCreatedIntegrationEvent : IntegrationEvent
 
     public virtual Guid CatalogBrandId { get; set; }
 }
-
