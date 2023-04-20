@@ -24,8 +24,13 @@ public record CatalogCreatedIntegrationDomainEvent : CatalogCreatedIntegrationEv
         set => _catalogBrandId = value;
     }
 
+    public override string Topic { get; set; } = nameof(CatalogCreatedIntegrationEvent);
+
     public CatalogCreatedIntegrationDomainEvent(CatalogItem catalog) : base()
     {
         _catalog = catalog;
+        Id = catalog.Id;
+        Name = catalog.Name;
+        PictureFileName = catalog.PictureFileName;
     }
 }

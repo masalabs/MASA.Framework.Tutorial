@@ -8,6 +8,7 @@
     <PackageReference Include="Masa.Contrib.Data.UoW.EFCore" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EFCore" Version="$(MasaFrameworkPackageVersion)" />
+    <PackageReference Include="Masa.Contrib.Development.DaprStarter.AspNetCore" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.Dapr" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Dispatcher.IntegrationEvents.EventLogs.EFCore" Version="$(MasaFrameworkPackageVersion)" />
     <PackageReference Include="Masa.Contrib.Exceptions" Version="$(MasaFrameworkPackageVersion)" />

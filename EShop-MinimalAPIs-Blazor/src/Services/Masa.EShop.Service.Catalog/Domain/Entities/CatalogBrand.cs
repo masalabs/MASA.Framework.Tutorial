@@ -7,7 +7,11 @@ public class CatalogBrand : FullAggregateRoot<Guid, int>
 {
     public string Brand { get; set; }
 
-    public CatalogBrand(Guid? id, string brand)
+    public CatalogBrand()
+    {
+    }
+
+    public CatalogBrand(Guid? id, string brand) : this()
     {
         Id = id ?? IdGeneratorFactory.SequentialGuidGenerator.NewId();
         Brand = brand;

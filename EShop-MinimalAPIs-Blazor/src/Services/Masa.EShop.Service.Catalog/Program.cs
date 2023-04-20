@@ -19,6 +19,15 @@ builder.Services.AddSwaggerGen();
 
 #endregion
 
+#region Use DaprStarter
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDaprStarter();
+}
+
+#endregion
+
 builder.Services
     .AddMultilevelCache(cacheBuilder => cacheBuilder.UseStackExchangeRedisCache())
     .AddEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>)))
@@ -74,5 +83,12 @@ await app.MigrateDbContextAsync<CatalogDbContext>(async (context, services) =>
 });
 
 app.MapGet("/", () => "Hello World!");
+
+app.UseRouting();
+app.UseCloudEvents();
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapSubscribeHandler();
+});
 
 app.Run();

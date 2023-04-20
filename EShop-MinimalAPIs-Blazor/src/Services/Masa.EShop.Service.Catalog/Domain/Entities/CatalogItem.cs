@@ -1,4 +1,5 @@
-﻿using Masa.BuildingBlocks.Data;
+﻿using System.Text.Json.Serialization;
+using Masa.BuildingBlocks.Data;
 using Masa.BuildingBlocks.Ddd.Domain.Entities.Full;
 using Masa.EShop.Service.Catalog.Domain.Events;
 
@@ -14,15 +15,21 @@ public class CatalogItem : FullAggregateRoot<Guid, int>
 
     public int CatalogTypeId { get; private set; }
 
+    [JsonIgnore]
     public CatalogType CatalogType { get; private set; } = null!;
 
     public Guid CatalogBrandId { get; private set; }
 
+    [JsonIgnore]
     public CatalogBrand CatalogBrand { get; private set; } = null!;
 
     public int Stock { get; private set; }
 
-    public CatalogItem(string name, decimal price, string pictureFileName)
+    public CatalogItem()
+    {
+    }
+
+    public CatalogItem(string name, decimal price, string pictureFileName) : this()
     {
         Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
         Name = name;
