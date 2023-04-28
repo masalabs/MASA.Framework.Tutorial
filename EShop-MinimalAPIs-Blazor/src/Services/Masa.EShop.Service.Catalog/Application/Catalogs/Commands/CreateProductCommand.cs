@@ -9,7 +9,7 @@ public record CreateProductCommand : Command
     /// <summary>
     /// seed data：31b1c60b-e9c3-4646-ac70-09354bdb1522
     /// </summary>
-    public Guid CatalogBrandId { get; set; }
+    public Guid CatalogBrandId { get; set; } = Guid.Parse("31b1c60b-e9c3-4646-ac70-09354bdb1522");
 
     /// <summary>
     /// seed data：1
