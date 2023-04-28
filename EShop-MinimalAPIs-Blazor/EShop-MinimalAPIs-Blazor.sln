@@ -7,13 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CDACD6DF-3C3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{ED427D9B-B783-4482-9902-A6F552598DB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Masa.EShop.Service.Catalog", "src\Services\Masa.EShop.Service.Catalog\Masa.EShop.Service.Catalog.csproj", "{606B232D-8002-448C-8B2B-3A1BD1811309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.EShop.Service.Catalog", "src\Services\Masa.EShop.Service.Catalog\Masa.EShop.Service.Catalog.csproj", "{606B232D-8002-448C-8B2B-3A1BD1811309}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{32974259-BB81-4B37-B9FF-CBB3AEA28F5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Masa.EShop.Contracts.Catalog", "src\Contracts\Masa.EShop.Contracts.Catalog\Masa.EShop.Contracts.Catalog.csproj", "{9E24A1D2-E742-4A8F-AEFE-E4F4A2934E78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.EShop.Contracts.Catalog", "src\Contracts\Masa.EShop.Contracts.Catalog\Masa.EShop.Contracts.Catalog.csproj", "{9E24A1D2-E742-4A8F-AEFE-E4F4A2934E78}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{F55FFE2F-D731-436D-94BF-A2399874F161}"
+	ProjectSection(SolutionItems) = preProject
+		..\Directory.Build.props = ..\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
