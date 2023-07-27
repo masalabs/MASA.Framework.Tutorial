@@ -37,6 +37,10 @@ namespace Masa.EShop.Service.Catalog.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ExpandContent")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("ModificationTime")
                         .HasColumnType("TEXT");
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Masa.EShop.Service.Catalog.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20230414140625_init")]
-    partial class init
+    [Migration("20230727082018_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,10 @@ namespace Masa.EShop.Service.Catalog.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExpandContent")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
