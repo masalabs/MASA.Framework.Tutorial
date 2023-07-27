@@ -25,6 +25,7 @@ public class ProductCommandHandler
         var catalogItem = new CatalogItem(command.Name, command.Price, command.PictureFileName ?? "default.png");
         catalogItem.SetCatalogType(command.CatalogTypeId);
         catalogItem.SetCatalogBrand(command.CatalogBrandId);
+        catalogItem.AddStock(command.Stock);
         await _repository.AddAsync(catalogItem);
         await _multilevelCacheClient.SetAsync(catalogItem.Id.ToString(), catalogItem);
     }
