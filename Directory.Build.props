@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <MasaFrameworkPackageVersion>1.0.0-rc.1</MasaFrameworkPackageVersion>
+    <MasaFrameworkPackageVersion>1.0.0</MasaFrameworkPackageVersion>
   </PropertyGroup>
   
 </Project>

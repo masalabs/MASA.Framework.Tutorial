@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Masa.BuildingBlocks.Caching;
+﻿using Masa.BuildingBlocks.Caching;
 using Masa.BuildingBlocks.Data;
 using Masa.Contrib.Dispatcher.Events;
 using Masa.EShop.Contracts.Catalog.Dto;
@@ -8,6 +7,7 @@ using Masa.EShop.Service.Catalog.Domain.Entities;
 using Masa.EShop.Service.Catalog.Infrastructure;
 using Masa.Utils.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Masa.EShop.Service.Catalog.Application.Catalogs;
 
@@ -89,9 +89,9 @@ public class ProductQueryHandler
                         CatalogTypeId = item.CatalogTypeId,
                         CatalogBrandId = item.CatalogBrandId
                     }).FirstOrDefaultAsync();
-                
-                memoryTimeSpan = item == null ? TimeSpan.FromSeconds(5) :TimeSpan.FromSeconds(60);
-                
+
+                memoryTimeSpan = item == null ? TimeSpan.FromSeconds(5) : TimeSpan.FromSeconds(60);
+
                 return new CacheEntry<CatalogItemDto>(item);
             }, memoryOptions => memoryOptions.AbsoluteExpirationRelativeToNow = memoryTimeSpan);
 

@@ -1,4 +1,4 @@
-﻿using Masa.BuildingBlocks.Ddd.Domain.SeedWork;
+﻿using Masa.BuildingBlocks.Data.Contracts;
 using Masa.EShop.Service.Catalog.Domain.Entities;
 
 namespace Masa.EShop.Service.Catalog.Infrastructure.Extensions;

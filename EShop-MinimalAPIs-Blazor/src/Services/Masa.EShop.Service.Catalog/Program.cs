@@ -1,4 +1,3 @@
-using System.Reflection;
 using FluentValidation;
 using Masa.BuildingBlocks.Caching;
 using Masa.BuildingBlocks.Data.UoW;
@@ -9,6 +8,7 @@ using Masa.BuildingBlocks.Dispatcher.IntegrationEvents;
 using Masa.EShop.Service.Catalog.Infrastructure;
 using Masa.EShop.Service.Catalog.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,22 +34,18 @@ builder.Services
     .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
     .AddMasaDbContext<CatalogDbContext>(contextBuilder =>
     {
-        contextBuilder
-            .UseSqlite()
-            .UseFilter();
+        contextBuilder.UseSqlite().UseFilter();
     })
     //Use the same database as the write library (pseudo read-write separation)
     .AddMasaDbContext<CatalogQueryDbContext>(contextBuilder =>
     {
-        contextBuilder
-            .UseSqlite()
-            .UseFilter();
+        contextBuilder.UseSqlite().UseFilter();
     })
     .Configure<AuditEntityOptions>(options => options.UserIdType = typeof(int))
     .AddDomainEventBus(options =>
     {
         options
-            .UseIntegrationEventBus(eventOptions=>eventOptions.UseDapr().UseEventLog<CatalogDbContext>())
+            .UseIntegrationEventBus(eventOptions => eventOptions.UseDapr().UseEventLog<CatalogDbContext>())
             .UseEventBus()
             .UseUoW<CatalogDbContext>()
             .UseRepository<CatalogDbContext>();

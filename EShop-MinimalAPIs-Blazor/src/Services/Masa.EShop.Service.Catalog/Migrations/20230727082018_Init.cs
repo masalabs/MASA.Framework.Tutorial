@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Masa.EShop.Service.Catalog.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,6 +50,7 @@ namespace Masa.EShop.Service.Catalog.Migrations
                     CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModificationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
+                    ExpandContent = table.Column<string>(type: "TEXT", nullable: false),
                     TransactionId = table.Column<Guid>(type: "TEXT", nullable: false),
                     RowVersion = table.Column<string>(type: "TEXT", maxLength: 36, nullable: false)
                 },
